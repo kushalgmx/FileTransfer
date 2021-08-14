@@ -1,4 +1,4 @@
-using FileTransfer.Console;
+using FileTransfer.Persistence;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -18,7 +18,8 @@ public class DataServiceTests : IDisposable
         IConfiguration configuration = new ConfigurationBuilder()
             .AddInMemoryCollection(inMemorySettings)
             .Build();
-        service = new(log, configuration);
+        var connectionString = configuration.GetValue<string>("ConnectionStrings:DefaultConnection");
+        service = new(log, connectionString);
     }
     public void Dispose()
     {
